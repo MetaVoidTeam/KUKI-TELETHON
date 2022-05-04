@@ -1,0 +1,52 @@
+{
+    "name": "kuki-Telethon",
+    "keywords": [
+        "Telethon",
+        "kuki",
+        "ai",
+        ""
+    ],
+    "repository": "http://github/metavoidteam/kuki-telethon",
+    "website": "metavoid.info",
+    "env": {
+        "APP_ID": {
+            "description": "get from my.telegram.org",
+            "required": "True"
+        },
+        "APP_HASH ": {
+            "description": "get from my.telegram.org",
+            "required": "True"
+        },
+        "KUKI_TOKEN ": {
+            "description": "get your api from @Kukichatbot, send /token in her pm",
+            "required": "True"
+        },
+        "BOT_TOKEN ": {
+            "description": "get from @botfather",
+            "required": "True"
+        },
+        "BOT_NAME ": {
+            "description": "ur bot name",
+            "required": "True"
+        },
+        "OWNER ": {
+            "description": "ur name",
+            "required": "True"
+        },
+        "BOT_USERNAME ": {
+            "description": "ur bot username",
+            "required": "True"
+        },
+        "MONGO_DB_URL ": {
+            "description": "get from mongodb.com",
+            "required": "True"
+        }
+    },
+    "stack": "heroku-20",
+    "formation": {
+        "worker": {
+            "quantity": 1,
+            "size": "free"
+        }
+    }
+}
