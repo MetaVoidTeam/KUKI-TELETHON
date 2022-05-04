@@ -1,21 +1,18 @@
-from config import *
-from telethon import events, TelegramClient
-from telethon.errors.rpcerrorlist import UserNotParticipantError
 from functools import wraps
-from random import choice
-from database import *
+
 from requests import JSONDecodeError, get
+from telethon import TelegramClient, events
+from telethon.errors.rpcerrorlist import UserNotParticipantError
 
+from config import *
+from database import *
 
-
-###########################################  CLIENT FUNCS #####################################################
+###########################################  CLIENT FUNCS ################
 
 kuki = TelegramClient("KUKIBOT", APP_ID, APP_HASH).start(bot_token=BOT_TOKEN)
 
 
-
-
-########################################### HANDLER AND RYTS CHK ##############################################
+########################################### HANDLER AND RYTS CHK #########
 
 
 def cmd(**args):
@@ -43,6 +40,7 @@ def ryts(func):
                 return await func(e)
         except (UserNotParticipantError, ValueError):
             return await e.reply("You are not in this chat!")
+
     return admin_check
 
 
@@ -55,11 +53,11 @@ def aichat(func):
             await func(e)
         else:
             return
+
     return ai_check
 
 
-############################################# API CHAT ########################################################
-
+############################################# API CHAT ###################
 
 
 class CONV:
@@ -68,11 +66,14 @@ class CONV:
         self.owner = OWNER
         self.token = KUKI_TOKEN
         self.url = "https://kukiapi.xyz/api"
-    
-    
+
     def message(self, text):
         try:
-            txt = get(self.url + f"/apikey={self.token}/{self.bot}/{self.owner}/message={text}", timeout=10)
+            txt = get(
+                self.url
+                + f"/apikey={self.token}/{self.bot}/{self.owner}/message={text}",
+                timeout=10,
+            )
             return txt.json()["reply"]
         except (JSONDecodeError, TimeoutError):
             return "KUKI is not responding. Try again later."
@@ -80,15 +81,12 @@ class CONV:
             return e
 
 
+########################################## MSG HANDLERS ##################
 
-
-########################################## MSG HANDLERS ######################################################
 
 @cmd(pattern="start")
 async def start(e):
     await e.reply("hey, I'm {}, a chatbot for Telegram.\n".format(BOT_NAME))
-
-
 
 
 @cmd(pattern="addchat")
@@ -101,9 +99,9 @@ async def addchat(e):
         await e.reply("Kuki Ai is already **enabled!**")
         return
     Chat.add_chat(e.chat_id)
-    await e.reply(f"Kuki Ai enabled by [{e.sender.first_name}](tg://user?id={e.sender_id}) in **{e.chat.title}**")
-
-
+    await e.reply(
+        f"Kuki Ai enabled by [{e.sender.first_name}](tg://user?id={e.sender_id}) in **{e.chat.title}**"
+    )
 
 
 @cmd(pattern="rmchat")
@@ -116,12 +114,14 @@ async def rmchat(e):
         await e.reply("Kuki Ai is already **disabled!**")
         return
     Chat.rm_chat(e.chat_id)
-    await e.reply(f"Kuki Ai disabled by [{e.sender.first_name}](tg://user?id={e.sender_id}) in **{e.chat.title}**")
-    
-    
+    await e.reply(
+        f"Kuki Ai disabled by [{e.sender.first_name}](tg://user?id={e.sender_id}) in **{e.chat.title}**"
+    )
 
 
-@kuki.on(events.NewMessage(incoming = True, func = lambda x: bool(x.mentioned) or x.is_private))
+@kuki.on(
+    events.NewMessage(incoming=True, func=lambda x: bool(x.mentioned) or x.is_private)
+)
 @aichat
 async def kuki_handler(e):
     c = CONV()
@@ -130,8 +130,7 @@ async def kuki_handler(e):
     await e.reply(c.message(e.raw_text))
 
 
-################################## INITIALIZATION ###########################################################
+################################## INITIALIZATION ########################
 
 kuki.run_until_disconnected()
 print("KUKI AI IS NOW ONLINE\n\nCONTACT @METAVOIDSUPPORT FOR QUERIES")
-
