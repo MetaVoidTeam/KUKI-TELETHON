@@ -1,0 +1,3 @@
+telethon==1.25.0
+dnspython
+pymongo
