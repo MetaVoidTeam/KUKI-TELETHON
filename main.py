@@ -95,7 +95,7 @@ async def addchat(e):
     if e.is_private:
         await e.reply("You can't use this command in a private chat!")
         return
-    if Chat.is_ai_chat(e.chat_id):
+    elif Chat.is_ai_chat(e.chat_id):
         await e.reply("Kuki Ai is already **enabled!**")
         return
     Chat.add_chat(e.chat_id)
@@ -110,7 +110,7 @@ async def rmchat(e):
     if e.is_private:
         await e.reply("You can't use this command in private chat!")
         return
-    if not Chat.is_ai_chat(e.chat_id):
+    elif not Chat.is_ai_chat(e.chat_id):
         await e.reply("Kuki Ai is already **disabled!**")
         return
     Chat.rm_chat(e.chat_id)
