@@ -1,7 +1,7 @@
 from functools import wraps
 
 from requests import JSONDecodeError, get
-from telethon import TelegramClient, events, Button
+from telethon import Button, TelegramClient, events
 from telethon.errors.rpcerrorlist import UserNotParticipantError
 
 from config import *
@@ -29,7 +29,9 @@ def cbk(**args):
     def decorator(func):
         kuki.add_event_handler(func, events.CallbackQuery(**args))
         return func
+
     return decorator
+
 
 def ryts(func):
     @wraps(func)
@@ -101,33 +103,42 @@ async def setchat(e):
     if e.is_private:
         await e.reply("This command can't be used in private chats.")
         return
-    buttons = Button.inline("Enable", data="enable_{}".format(e.sender_id)), Button.inline("Disable", data="disable_{}".format(e.sender_id))
+    buttons = Button.inline(
+        "Enable", data="enable_{}".format(e.sender_id)
+    ), Button.inline("Disable", data="disable_{}".format(e.sender_id))
     await e.reply("AI chat setup", buttons=buttons)
 
 
 @cbk(pattern="enable_(.*)")
 async def enable_ai(e):
     user = int(e.pattern_match.group(1))
-    ryts = await kuki.get_permissions(e.chat_id, e.sender_id)
+    await kuki.get_permissions(e.chat_id, e.sender_id)
     if not user == e.sender_id:
         return await e.answer("You ain't the one who used this command.", alert=True)
     elif Chat.is_ai_chat(e.chat_id):
         return await e.edit("AI is already enabled in this chat.")
-    await e.edit("Successfully enabled Kuki Ai in **{}** by [{}](tg://user?id={})".format(e.chat.title, e.sender.first_name, e.sender_id))
+    await e.edit(
+        "Successfully enabled Kuki Ai in **{}** by [{}](tg://user?id={})".format(
+            e.chat.title, e.sender.first_name, e.sender_id
+        )
+    )
     Chat.add_chat(e.chat_id)
 
 
 @cbk(pattern="disable_(.*)")
 async def disable_ai(e):
     user = int(e.pattern_match.group(1))
-    ryts = await kuki.get_permissions(e.chat_id, e.sender_id)
+    await kuki.get_permissions(e.chat_id, e.sender_id)
     if not user == e.sender_id:
         return await e.answer("You aint the one who used this command.", alert=True)
     elif not Chat.is_ai_chat(e.chat_id):
         return await e.edit("AI is already disabled in this chat.")
-    await e.edit("Successfully disabled Kuki Ai in **{}** by [{}](tg://user?id={})".format(e.chat.title, e.sender.first_name, e.sender_id))
+    await e.edit(
+        "Successfully disabled Kuki Ai in **{}** by [{}](tg://user?id={})".format(
+            e.chat.title, e.sender.first_name, e.sender_id
+        )
+    )
     Chat.rm_chat(e.chat_id)
-
 
 
 @kuki.on(
