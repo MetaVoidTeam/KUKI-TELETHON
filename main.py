@@ -149,12 +149,12 @@ async def disable_ai(e):
 @aichat
 async def kuki_handler(e):
     c = CONV()
-    if e.text.startswith("/start"):
+    if e.text.startswith("/start") or not e.text:
         return
     await e.reply(c.message(e.raw_text))
 
 
 ################################## INITIALIZATION ########################
 
-kuki.run_until_disconnected()
 print("KUKI AI IS NOW ONLINE\n\nCONTACT @METAVOIDSUPPORT FOR QUERIES")
+kuki.run_until_disconnected()
