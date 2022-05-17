@@ -15,6 +15,8 @@ KUKI-TELETHON"> <img src="https://img.shields.io/badge/Deploy%20To%20Heroku-blac
 ### VPS
 ```
 git clone https://github.com/MetaVoidTeam/KUKI-TELETHON
+cd KUKI-TELETHON
+pip install -r requirements.txt
 mv .sample_env .env
 nano .env
 "Add ur vars"
