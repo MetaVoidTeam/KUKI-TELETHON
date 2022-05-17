@@ -1,11 +1,13 @@
 from functools import wraps
 
+from dotenv import load_dotenv
 from requests import JSONDecodeError, get
 from telethon import Button, TelegramClient, events
 from telethon.errors.rpcerrorlist import UserNotParticipantError
-from dotenv import load_dotenv
+
 from config import *
 from database import *
+
 load_dotenv()
 ###########################################  CLIENT FUNCS ################
 
