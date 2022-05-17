@@ -3,10 +3,10 @@ from functools import wraps
 from requests import JSONDecodeError, get
 from telethon import Button, TelegramClient, events
 from telethon.errors.rpcerrorlist import UserNotParticipantError
-
+from dotenv import load_dotenv
 from config import *
 from database import *
-
+load_dotenv()
 ###########################################  CLIENT FUNCS ################
 
 kuki = TelegramClient("KUKIBOT", APP_ID, APP_HASH).start(bot_token=BOT_TOKEN)
