@@ -1,6 +1,5 @@
 from functools import wraps
 
-from dotenv import load_dotenv
 from requests import JSONDecodeError, get
 from telethon import Button, TelegramClient, events
 from telethon.errors.rpcerrorlist import UserNotParticipantError
@@ -8,7 +7,6 @@ from telethon.errors.rpcerrorlist import UserNotParticipantError
 from config import *
 from database import *
 
-load_dotenv()
 ###########################################  CLIENT FUNCS ################
 
 kuki = TelegramClient("KUKIBOT", APP_ID, APP_HASH).start(bot_token=BOT_TOKEN)
