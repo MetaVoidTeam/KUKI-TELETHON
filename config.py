@@ -1,4 +1,10 @@
 from os import environ as env
+from dotenv import load_dotenv
+
+
+
+load_dotenv()
+
 
 APP_ID = env.get("APP_ID")
 APP_HASH = env.get("APP_HASH")
