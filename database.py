@@ -1,8 +1,8 @@
 from pymongo import MongoClient
 
-from config import MONGO_DB_URL
+from config import MONGO_URI
 
-kuki_db = MongoClient(MONGO_DB_URL)["KUKI"]["CHATS"]
+kuki_db = MongoClient(MONGO_URI)["KUKI"]["CHATS"]
 
 
 class Chat:
